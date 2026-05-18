@@ -1,0 +1,44 @@
+name: uniclaim_app
+description: UniClaim - Gestion des réclamations universitaires
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP & Cookies
+  dio: ^5.4.0
+  cookie_jar: ^4.0.8
+  dio_cookie_manager: ^3.1.1
+  path_provider: ^2.1.2
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # UI
+  fl_chart: ^0.67.0
+  flutter_rating_bar: ^4.0.1
+  image_picker: ^1.0.7
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+
+  # Utils
+  intl: ^0.19.0
+  timeago: ^3.6.1
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

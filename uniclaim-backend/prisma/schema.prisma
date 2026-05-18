@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  fullName   String
+  email      String   @unique
+  password   String
+  role       String   @default("student")
+  roomNumber String?  // numéro de chambre (étudiant)
+  speciality String?  // spécialité du technicien (electricite, plomberie, ...)
+  createdAt  DateTime @default(now())
+
+  complaints            Complaint[]
+  assignedComplaints    Complaint[] @relation("AssignedTechnician")
+  noiseReports          NoiseReport[]
+}
+
+model Complaint {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  category    String   @default("autre") // electricite | plomberie | menuiserie | climatisation | internet | autre
+  status      String   @default("pending")
+  image       String?
+  createdAt   DateTime @default(now())
+
+  userId               Int
+  user                 User  @relation(fields: [userId], references: [id])
+  assignedTechnicianId Int?
+  assignedTechnician   User? @relation("AssignedTechnician", fields: [assignedTechnicianId], references: [id])
+}
+
+// Signalement de nuisance sonore → agent de sécurité
+model NoiseReport {
+  id           Int      @id @default(autoincrement())
+  roomNumber   String   // chambre du plaignant
+  neighborRoom String   // chambre du voisin
+  floor        String?  // étage (optionnel)
+  block        String?  // bâtiment/bloc (optionnel)
+  description  String   // description des nuisances
+  status       String   @default("pending") // pending | reviewed | resolved | rejected
+  agentNote    String?  // note laissée par l'agent de sécurité
+  createdAt    DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
